@@ -40,12 +40,13 @@ public class Album {
         while(true) {
             try {
                 disNum = Integer.parseInt(s.nextLine());
+                System.out.println(this.cardList.get(disNum-1).toString());
                 break;
-            } catch(NumberFormatException e) {
-                System.out.println("Try again!");
+            } catch(NumberFormatException | IndexOutOfBoundsException e) {
+                System.out.println("Error, enter a valid number!");
             }
         }
-        System.out.println(this.cardList.get(disNum-1).toString());
+        //System.out.println(this.cardList.get(disNum-1).toString());
     }
     public void addCard() {
         String nName, nType, nDate, nAttack1, nAttack2;
@@ -72,6 +73,7 @@ public class Album {
         while(true) {
             try {
                 nDate = s.nextLine();
+
                 Date temp = new Date(nDate);
                 if(nDate.charAt(2)!='/' || nDate.charAt(5)!='/' || temp.getIdate() %10000 < 101 || temp.getIdate() %10000 > 1231 || temp.getIdate() %100 < 1) {
                     throw new NumberFormatException();
@@ -80,7 +82,7 @@ public class Album {
                     throw new NumberFormatException();
                 }
                 break;
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException  | StringIndexOutOfBoundsException e) {
                 System.out.println("Invalid date, please re-enter");
             }
         }
@@ -197,14 +199,14 @@ public class Album {
         System.out.print("\nPlease indicate using a number what you want to edit (1 - Name, 2 - Description, 3 - DMG): ");
         while(true) {
             try {
-                opt = this.s.nextInt();
+                opt = Integer.parseInt(this.s.nextLine());
                 break;
             } catch(NumberFormatException e) {
                 System.out.println("Please enter a number between 1 and 3!");
             }
         }
         System.out.println("Please enter what you would like to replace it with: ");
-        String n = this.s.nextLine();
+        String n = s.nextLine();
         this.cardList.get(NUM).getAttacks().get(aNum-1).edit(opt, n);
         System.out.println("Here are your changes: ");
         System.out.println(this.cardList.get(NUM).toString());

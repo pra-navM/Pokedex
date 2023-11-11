@@ -125,7 +125,7 @@ public class Driver {
                                     deck.get(deckCHECK).getCard(cardMUM-1);
                                     System.out.println("Selected Card: ");
                                     break;
-                                    } catch(NumberFormatException e) {
+                                    } catch(NumberFormatException | IndexOutOfBoundsException e) {
                                         System.out.println("Please enter a number of an existing card");
                                     }
                                 }
@@ -137,9 +137,10 @@ public class Driver {
                                     try{
                                         int choice = Integer.parseInt(s.nextLine());
                                         if(choice<4 && choice>0) {
-                                            deck.get(MUM-1).sortCards(choice);
+                                            deck.get(deckCHECK).sortCards(choice);
                                             break;
                                         }
+                                        else throw new NumberFormatException();
                                     } catch(NumberFormatException e) {
                                         System.out.println("Please enter an integer between 1 and 3! ");
                                     }
@@ -256,8 +257,8 @@ public class Driver {
                         }
                         new Date(removeData1);
                         break;
-                    } catch (NumberFormatException e) {
-                        System.out.println("FOLLOW THE FORMAT!");
+                    } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
+                        System.out.println("Invalid format, please re-enter");
                     }
                 }
                 int RESULT1 = 0;
