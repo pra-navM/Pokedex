@@ -1,10 +1,25 @@
 import java.util.*;
 
 public class Album {
-    int NUMBER, max, numCards = 0;
-    ArrayList<Card> cardList = new ArrayList<Card>();
-    Date cDate;
-    Scanner s = new Scanner(System.in);
+    private int NUMBER, max, numCards = 0;
+    private ArrayList<Card> cardList = new ArrayList<Card>();
+    private Date cDate;
+    private static Scanner s = new Scanner(System.in);
+
+    public int getNUMBER(){
+        return NUMBER;
+    }
+    public int getMax(){
+        return max;
+    }
+    public int getNumCards(){
+        return numCards;
+    }
+    public Date getcDate(){
+        return cDate;
+    }
+
+
     Album(int n, int m, String d) {
         this.NUMBER = n;
         this.max = m;
@@ -12,11 +27,11 @@ public class Album {
     }
     
     public void displayAll() {
-        System.out.println("\nAlbum #: " + NUMBER + "\nMax cards: " + max + "\n# of cards: " + numCards + "\nCreation Date:" + this.cDate.dateString);
+        System.out.println("\nAlbum #: " + NUMBER + "\nMax cards: " + max + "\n# of cards: " + numCards + "\nCreation Date:" + this.cDate.getSdate());
         for(int i = 0; i<this.cardList.size(); i++) {
             System.out.println("\n\tCard #: " + (i+1));
-            System.out.println("\tName: " + this.cardList.get(i).name);
-            System.out.println("\tDate of purchase/trade: " + this.cardList.get(i).day.dateString);
+            System.out.println("\tName: " + this.cardList.get(i).getName());
+            System.out.println("\tDate of purchase/trade: " + this.cardList.get(i).getDay().getSdate());
         }
     }
     public void displayCard() {
@@ -40,16 +55,33 @@ public class Album {
         System.out.println("Please enter the type of the card: ");
         nType = s.nextLine();
         System.out.println("Please enter the date that the card was purchased with the format mm/dd/yyyy");
+/*
         while(true) {
             try {
                 nDate = s.nextLine();
                 if(nDate.charAt(2)!='/' || nDate.charAt(5)!='/') {
-                    System.out.println(nDate.charAt(-1));
+                    throw new NumberFormatException();
                 }
                 new Date(nDate);
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("FOLLOW THE FORMAT!");
+            }
+        }
+        */
+        while(true) {
+            try {
+                nDate = s.nextLine();
+                Date temp = new Date(nDate);
+                if(nDate.charAt(2)!='/' || nDate.charAt(5)!='/' || temp.getIdate() %10000 < 101 || temp.getIdate() %10000 > 1231 || temp.getIdate() %100 < 1) {
+                    throw new NumberFormatException();
+                }
+                if(temp.getIdate() / 10000 > 2023 || temp.getIdate() % 100 > 31 || (temp.getIdate() % 100 > 28 && temp.getSdate().substring(0,2).equals("02")) ||  (temp.getIdate() % 100 > 30 && (temp.getSdate().substring(0,2).equals("04") || temp.getSdate().substring(0,2).equals("06") || temp.getSdate().substring(0,2).equals("09") || temp.getSdate().substring(0,2).equals("11")))) {
+                    throw new NumberFormatException();
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid date, please re-enter");
             }
         }
         System.out.println("Please enter the HP of the card: ");
@@ -156,7 +188,7 @@ public class Album {
         while(true) {
             try {
                 aNum = this.s.nextInt();
-                System.out.println(this.cardList.get(NUM).attacks.get(aNum-1).toString());
+                System.out.println(this.cardList.get(NUM).getAttacks().get(aNum-1).toString());
                 break;
             } catch(NumberFormatException e) {
                 System.out.println("Please enter a number that is within the number of attacks!");
@@ -173,7 +205,7 @@ public class Album {
         }
         System.out.println("Please enter what you would like to replace it with: ");
         String n = this.s.nextLine();
-        this.cardList.get(NUM).attacks.get(aNum-1).edit(opt, n);
+        this.cardList.get(NUM).getAttacks().get(aNum-1).edit(opt, n);
         System.out.println("Here are your changes: ");
         System.out.println(this.cardList.get(NUM).toString());
     }
@@ -212,7 +244,7 @@ public class Album {
                 Collections.sort(temp, new sortByName());
                 while(l<=r) {
                     int m = l+(r-1) /2;
-                    int res = data.compareTo(temp.get(m).name);
+                    int res = data.compareTo(temp.get(m).getName());
                     if(res==0) {
                         return m;
                     }
@@ -229,10 +261,10 @@ public class Album {
                 int hps = Integer.parseInt(data);
                 while(l<=r) {
                     int m = l+(r-1) /2;
-                    if(temp1.get(m).HP==hps) {
+                    if(temp1.get(m).getHP()==hps) {
                         return m;
                     }
-                    if(temp1.get(m).HP<hps) {
+                    if(temp1.get(m).getHP()<hps) {
                         l=m+1;
                     } else {
                         r = m-1;
@@ -245,12 +277,12 @@ public class Album {
 }
 class sortByAlbumDate implements Comparator<Album> { // helper class to sort for binary search
     public int compare(Album a, Album b) {
-        return a.cDate.date -b.cDate.date;
+        return a.getcDate().getIdate() -b.getcDate().getIdate();
     }
 }
 class sortByAlbumNum implements Comparator<Album> {
     public int compare(Album a, Album b) {
-        return a.NUMBER - b.NUMBER; 
+        return a.getNUMBER() - b.getNUMBER();
     }
 }
 

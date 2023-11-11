@@ -1,7 +1,17 @@
 public class Attack {
-    String name;
-    String description = "";
-    String dmg;
+    private String name;
+    private String description = "";
+    private String dmg;
+
+    public String getName(){
+        return name;
+    }
+    public String getDescription(){
+        return description;
+    }
+    public String getDmg(){
+        return dmg;
+    }
 
     Attack (String nd, String d) {
         String strArr[] = nd.split("-");
@@ -28,4 +38,6 @@ public class Attack {
                 this.dmg = n;
         }
     }
+
+
 }

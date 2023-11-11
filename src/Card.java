@@ -1,10 +1,28 @@
 import java.util.*;
 public class Card{
-    String name;
-    int HP;
-    String type;
-    Date day;
-    ArrayList<Attack> attacks = new ArrayList<Attack>();
+    private String name;
+    private int HP;
+    private String type;
+    private Date day;
+    private ArrayList<Attack> attacks = new ArrayList<Attack>();
+
+
+    public String getName(){
+        return name;
+    }
+    public int getHP(){
+        return HP;
+    }
+    public String getType(){
+        return type;
+    }
+    public Date getDay(){
+        return day;
+    }
+
+    public ArrayList<Attack> getAttacks(){
+        return attacks;
+    }
 
     Card(String n, int h, String t, String d) {
         this.name = n;
@@ -23,23 +41,23 @@ public class Card{
             ret += "\n\t" + (i+1) + ".";
             ret+=attacks.get(i).toString();
         }
-        return  ret + "\nDate of purchase/trade: " + this.day.dateString;
+        return  ret + "\nDate of purchase/trade: " + this.day.getSdate();
     }
 }
 
 class sortByName implements Comparator<Card> {
     public int compare(Card a, Card b) {
-        return a.name.compareTo(b.name);
+        return a.getName().compareTo(b.getName());
     }
 }
 class sortByHP implements Comparator<Card> {
     public int compare(Card a, Card b) {
-        return a.HP - b.HP;
+        return a.getHP() - b.getHP();
     }
 }
 class sortByDate implements Comparator<Card> {
     public int compare(Card a, Card b) {
-        return a.day.date - b.day.date;
+        return a.getDay().getIdate() - b.getDay().getIdate();
     }
 }
 

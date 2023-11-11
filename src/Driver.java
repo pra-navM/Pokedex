@@ -1,6 +1,9 @@
 import java.util.*;
 import java.io.*;
 
+//Pranav Manjunath
+//11/10/2023
+//This program is a pokedex that stores, sorts, and removes pokemon cards/albums by various criteria
 
 public class Driver {
 
@@ -12,13 +15,13 @@ public class Driver {
             System.out.println("Please indicate what you would like to do by entering an integer: \n\t 1. Access deck related options\n\t 2. Access album related options\n\t 3. Exit");
             String answer = s.nextLine();
             boolean boo2 = true;
-            switch(answer) {
-                case "1":
+            switch(answer) { //different cases based on what answer is
+                case "1": //deck related options
                     while(boo2) {
                         System.out.println("\nPlease indicate what you would like to do by entering an integer: \n\t1. Display a list of all albums \n\t2. Display information on a particular album \n\t3. Add an album");
-                        System.out.println("\t4. Remove an album (2 options) \n\t5. Show statistics \n\t6. Return back to main menu");
+                        System.out.println("\t4. Remove an album (2 options) \n\t5. Show statistics \n\t6. Return back to main menu"); //prints out list of options
                         String answer2 = s.nextLine();
-                        switch(answer2) {
+                        switch(answer2) { //switch moves between album related options
                             case "1": //display
                                 displayAlbums(deck);
                                 break;
@@ -67,14 +70,15 @@ public class Driver {
                         }
                     }
                     break;
-                case "2":
+                case "2"://album related options
+
                     if(deck.size()==0) {
                         System.out.println("Add an album first!");
                     } else {
                         displayAlbums(deck);
                         int MUM;
                         if(deck.size()==1) {
-                            MUM = deck.get(0).NUMBER;
+                            MUM = deck.get(0).getNUMBER();
                             System.out.println("You only have one album which has been selected, which is this deck: ");
                             albumInfo(""+MUM,deck);
                         } else {
@@ -83,7 +87,7 @@ public class Driver {
                                 try{
                                     MUM = Integer.parseInt(s.nextLine());
                                     int deckCHECK = binarySearch(""+MUM,1,deck);
-                                    deck.get(MUM);
+                                    deck.get(deckCHECK);
                                     System.out.println("Selected Album: ");
                                     albumInfo(""+MUM,deck);
                                     break;
@@ -93,37 +97,39 @@ public class Driver {
                             }
                         }
                         while(boo2) {
+                        int deckCHECK = binarySearch(""+MUM,1,deck);
                         System.out.println("Please indicate what you would like to do by entering an integer: \n\t1. Display all cards (in the last sorted order) \n\t2. Display information on a particular card \n\t3. Add a card");
                         System.out.println("\t4. Remove a card (4 options) \n\t5. Edit attack \n\t6. Sort cards (3 options) \n\t7. Return back to main menu");
                         String answer2 = s.nextLine();
                         switch(answer2) {
+
                             case "1": //display all in last sorted order
-                                deck.get(MUM-1).displayAll();
+                                deck.get(deckCHECK).displayAll();
                                 break;
                             case "2": //display information on a particular card
-                                deck.get(MUM-1).displayCard();
+                                deck.get(deckCHECK).displayCard();
                                 break;
                             case "3": // add a card
-                                deck.get(MUM-1).addCard();
+                                deck.get(deckCHECK).addCard();
                                 break;
                             case "4": // remove a card(4 options)
-                                deck.get(MUM-1).removeCard();
+                                deck.get(deckCHECK).removeCard();
                                 break;
                             case "5": // edit attack
-                                deck.get(MUM).displayAll();
+                                deck.get(deckCHECK).displayAll();
                                 System.out.println("Please select a card with the card number: ");
                                 int cardMUM;
                                 while(true) {
                                     try{
                                     cardMUM = Integer.parseInt(s.nextLine());
-                                    deck.get(MUM-1).getCard(cardMUM);
+                                    deck.get(deckCHECK).getCard(cardMUM-1);
                                     System.out.println("Selected Card: ");
                                     break;
                                     } catch(NumberFormatException e) {
                                         System.out.println("Please enter a number of an existing card");
                                     }
                                 }
-                                deck.get(MUM-1).editAttack(cardMUM);
+                                deck.get(deckCHECK).editAttack(cardMUM-1);
                                 break;
                             case "6": // sort cards (3 options)
                                 System.out.println("Please enter an integer indicating what you would like to sort by: \n\t1. Name\n\t2. HP\n\t3. Date");
@@ -131,7 +137,7 @@ public class Driver {
                                     try{
                                         int choice = Integer.parseInt(s.nextLine());
                                         if(choice<4 && choice>0) {
-                                            deck.get(MUM).sortCards(choice);
+                                            deck.get(MUM-1).sortCards(choice);
                                             break;
                                         }
                                     } catch(NumberFormatException e) {
@@ -162,8 +168,8 @@ public class Driver {
     public static void displayAlbums(ArrayList<Album> deck) {
         if(deck.size()>0) {
             for(int i =0; i<deck.size(); i++) {
-                System.out.println("\n\tAlbum #: " + deck.get(i).NUMBER);
-                System.out.println("\tDate of creation: " + deck.get(i).cDate.dateString);
+                System.out.println("\n\tAlbum #: " + deck.get(i).getNUMBER());
+                System.out.println("\tDate of creation: " + deck.get(i).getcDate().getSdate());
             }
         } else {
             System.out.println("you have no albums to display!");
@@ -173,12 +179,12 @@ public class Driver {
     public static void albumInfo(String albumNumber, ArrayList<Album> deck) {
         int deck1 = binarySearch(albumNumber, 1,deck);
         System.out.println("\n\tAlbum #: " + albumNumber);
-        System.out.println("\tAlbum creation date: " + deck.get(deck1).cDate.dateString);
-        System.out.println("\tAlbum capacity: " + deck.get(deck1).max);
-        System.out.println("\t# of cards: " + deck.get(deck1).numCards);
+        System.out.println("\tAlbum creation date: " + deck.get(deck1).getcDate().getSdate());
+        System.out.println("\tAlbum capacity: " + deck.get(deck1).getMax());
+        System.out.println("\t# of cards: " + deck.get(deck1).getNumCards());
         int totalHP = 0;
-        for(int i = 0; i< deck.get(deck1).numCards; i++) {
-            totalHP+= deck.get(deck1).getCard(i).HP;
+        for(int i = 0; i< deck.get(deck1).getNumCards(); i++) {
+            totalHP+= deck.get(deck1).getCard(i).getHP();
         }
         System.out.println("\tTotal HP: " + totalHP);
     }
@@ -198,7 +204,7 @@ public class Driver {
             String numAttacsk = inFile.nextLine();
             for(int j = 0; j<Integer.parseInt(numAttacsk); j++) {
                 String in1 = inFile.nextLine(), in2 = inFile.nextLine();
-                deck.get(deck.size()-1).getCard(deck.get(deck.size()-1).numCards-1).addAttack(in1, in2);
+                deck.get(deck.size()-1).getCard(deck.get(deck.size()-1).getNumCards()-1).addAttack(in1, in2);
             }
         }
         deck.get(deck.size()-1).displayAll();
@@ -278,14 +284,14 @@ public class Driver {
             double averageSHP=0, averageTHP=0;
             int tCards=0, tMax=0;
             for(int i= 0; i<deck.size(); i++) {
-                System.out.println("Album #: " + deck.get(i).NUMBER);
-                System.out.println("\tCards/Max: " + deck.get(i).numCards + " / " + deck.get(i).max);
-                tCards+=deck.get(i).numCards;
-                tMax+=deck.get(i).max;
-                for(int j = 0; j<deck.get(i).numCards; j++) {
-                    averageSHP+=deck.get(i).getCard(j).HP;
+                System.out.println("Album #: " + deck.get(i).getNUMBER());
+                System.out.println("\tCards/Max: " + deck.get(i).getNumCards() + " / " + deck.get(i).getMax());
+                tCards+=deck.get(i).getNumCards();
+                tMax+=deck.get(i).getMax();
+                for(int j = 0; j<deck.get(i).getNumCards(); j++) {
+                    averageSHP+=deck.get(i).getCard(j).getHP();
                 }
-                averageSHP = averageSHP/deck.get(i).numCards;
+                averageSHP = averageSHP/deck.get(i).getNumCards();
                 System.out.println("\tAverage HP: " + averageSHP);
                 averageTHP+=averageSHP;
                 averageSHP=0;
@@ -305,10 +311,10 @@ public class Driver {
                 int nData = Integer.parseInt(data);
                 while(l<=r) {
                     int m = l+(r-1) /2;
-                    if(temp.get(m).NUMBER==nData) {
+                    if(temp.get(m).getNUMBER()==nData) {
                         return m;
                     }
-                    if(temp.get(m).NUMBER<nData) {
+                    if(temp.get(m).getNUMBER()<nData) {
                         l=m+1;
                     } else {
                         r = m-1;
@@ -320,10 +326,10 @@ public class Driver {
                 while(l<=r) {
                     int m = l+(r-1) /2;
                     int num1 = Integer.parseInt(data.substring(6, 10)) * 10000 + Integer.parseInt(data.substring(0,2)) * 100 + Integer.parseInt(data.substring(3, 5));
-                    if(temp.get(m).cDate.date == num1) {
+                    if(temp.get(m).getcDate().getIdate() == num1) {
                         return m;
                     }
-                    if(temp.get(m).cDate.date < num1) {
+                    if(temp.get(m).getcDate().getIdate() < num1) {
                         l=m+1;
                     } else {
                         r = m-1;
