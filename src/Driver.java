@@ -35,8 +35,8 @@ public class Driver {
                                             Integer.parseInt(albInfo);
                                             albumInfo(albInfo, deck);
                                             break;
-                                        } catch(NumberFormatException e) {
-                                            System.out.println("Please use an integer!");
+                                        } catch(NumberFormatException | IndexOutOfBoundsException e) {
+                                            System.out.println("Error, please enter again");
                                         }
 
                                     }
@@ -91,7 +91,7 @@ public class Driver {
                                     System.out.println("Selected Album: ");
                                     albumInfo(""+MUM,deck);
                                     break;
-                                } catch(NumberFormatException e) {
+                                } catch(NumberFormatException | IndexOutOfBoundsException e) {
                                     System.out.println("Please enter a number of an existing album");
                                 }
                             }
@@ -141,7 +141,7 @@ public class Driver {
                                             break;
                                         }
                                         else throw new NumberFormatException();
-                                    } catch(NumberFormatException e) {
+                                    } catch(NumberFormatException | IndexOutOfBoundsException e) {
                                         System.out.println("Please enter an integer between 1 and 3! ");
                                     }
                                 }

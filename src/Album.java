@@ -120,7 +120,7 @@ public class Album {
         System.out.println("Please enter a number indicating what you would like to do: \n\t1. Remove first card\n\t2. Remove last card\n\t3. Remove by card name\n\t4. Remove by HP\n");
         while(true) {
             try {
-                option = s.nextInt();
+                option = Integer.parseInt(s.nextLine());
                 if(option<1 || option > 4) {
                 System.out.println("Please enter a number between 1 and 4!");
                 } else {
@@ -200,6 +200,7 @@ public class Album {
         while(true) {
             try {
                 opt = Integer.parseInt(this.s.nextLine());
+                if (opt <1 || opt > 3) throw new NumberFormatException();
                 break;
             } catch(NumberFormatException e) {
                 System.out.println("Please enter a number between 1 and 3!");
